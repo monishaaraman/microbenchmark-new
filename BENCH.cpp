@@ -6,6 +6,7 @@
 #include <regex>
 #include <cstdio> // for freopen
 #include <pqxx/pqxx>
+#include <iomanip> // Include the header for setprecision
 
 
 
@@ -50,7 +51,7 @@ void processDiskOutput(const std::string &inputFile, const std::string &benchmar
         std::ifstream inFile(inputFile);
         std::string line;
 
-        int Average_Read = -1, Average_Write = -1, Compile_avg = -1;
+        float Average_Read = -1, Average_Write = -1, Compile_avg = -1;
 
         // Regular expression to split by one or more spaces
         std::regex regex("\\s+");
@@ -81,7 +82,7 @@ void processDiskOutput(const std::string &inputFile, const std::string &benchmar
                             std::string numericPart = tokens[6].substr(0, kPos6);
                             float token6numericValue = std::stof(numericPart);
                             token6numericValue *= 1000;
-                            tokens[6] = std::to_string((int)token6numericValue);
+                            tokens[6] = std::to_string(token6numericValue);
                         }
                     
                         size_t kPos7 = tokens[7].find("k");
@@ -89,22 +90,22 @@ void processDiskOutput(const std::string &inputFile, const std::string &benchmar
                             std::string numericPart = tokens[7].substr(0, kPos7);
                             float token7numericValue = std::stof(numericPart);
                             token7numericValue *= 1000;
-                            tokens[7] = std::to_string((int)token7numericValue);
+                            tokens[7] = std::to_string(token7numericValue);
                         }
                     }
                     
                     if (benchmarkName.find("Fio-Random") != std::string::npos) {
-                        Average_Read = std::stoi(tokens[6]);
-                        Average_Write = std::stoi(tokens[7]);
+                         Average_Read = std::stoi(tokens[6]);
+                         Average_Write = std::stoi(tokens[7]);
                         std::cout << "Average Read  (in MiB/s)   : " << Average_Read << std::endl;
                         std::cout << "Average Write  (in MiB/s)   : " << Average_Write << std::endl;
                     } else if (benchmarkName.find("Fio-sequential") != std::string::npos) {
-                        Average_Read = std::stoi(tokens[6]);
-                        Average_Write = std::stoi(tokens[7]);
+                         Average_Read = std::stoi(tokens[6]);
+                         Average_Write = std::stoi(tokens[7]);
                         std::cout << "Average Read  (in MiB/s)   : " << Average_Read << std::endl;
                         std::cout << "Average Write  (in MiB/s)     : " << Average_Write << std::endl;
                     } else if (benchmarkName.find("Compilebench") != std::string::npos) {
-                        Compile_avg = std::stoi(tokens[6]);
+                         Compile_avg = std::stoi(tokens[6]);
                         std::cout << "Average Compile (in MB/s)            : " << Compile_avg << std::endl;
                     }
                 }
@@ -117,70 +118,6 @@ void processDiskOutput(const std::string &inputFile, const std::string &benchmar
     }
 }
 
-
-
-/*void processDiskOutput(const std::string &inputFile, const std::string &benchmarkName) {
-    try {
-        std::string modelName = getSystemModelName();
-        std::cout << "System Model Name: " << modelName << std::endl;
-        std::ifstream inFile(inputFile);
-        std::string line;
-
-        int Average_Read = -1, Average_Write = -1, Compile_avg = -1;
-
-        // Regular expression to split by one or more spaces
-        std::regex regex("\\s+");
-        
-        while (getline(inFile, line)) {
-            if (line.find(benchmarkName) != std::string::npos) {
-                //std::cout << "Processing line: " << line << std::endl;
-                std::istringstream iss(line);
-                std::string word;
-                std::vector<std::string> tokens;
-
-                // Process each word in the line
-                while (iss >> word) {
-                    tokens.push_back(word);
-                }
-
-                if (!tokens.empty()) {
-                    std::cout << "Benchmark                           : " << getFirstToken(tokens[0], '/') << std::endl;
-                    std::cout << "Time_ms                              : " << tokens[1] << " " << tokens[2] << std::endl;
-                    std::cout << "CPU_ms                               : " << tokens[3] << " " << tokens[4] << std::endl;
-                    std::cout << "Iterations                           : " << tokens[5] << std::endl;
-
-                    // Extract the numeric part and convert it to float
-                    size_t kPos6 = tokens[6].find("k");
-                    if (kPos6 != std::string::npos) {
-                        std::string numericPart = tokens[6].substr(0, kPos6);
-                        float token6numericValue = std::stof(numericPart);
-
-                        // Multiply by 1000
-                        token6numericValue *= 1000;
-                        tokens[6] = std::to_string((int)token6numericValue);
-                        // Print the result
-                        // std::cout << "Converted value: " << token6numericValue << std::endl;
-
-                    
-                    if (benchmarkName.find("Fio-Random") != std::string::npos) {
-                        Average_Read = std::stof(tokens[6]);
-                        std::cout << "Average Read  (in MiB/s)   : " << Average_Read << std::endl;
-                    } else if (benchmarkName.find("Fio-sequential") != std::string::npos) {
-                        Average_Write = std::stof(tokens[6]);
-                        std::cout << "Average Write  (in MiB/s)     : " << Average_Write << std::endl;
-                    } else if (benchmarkName.find("BM_Compilebench") != std::string::npos) {
-                        Compile_avg = std::stof(tokens[6]);
-                        std::cout << "Average Compile (in MB/s)            : " << Compile_avg << std::endl;
-                    }
-                }
-            }
-        }
-        }
-        inFile.close();
-    } catch (const std::exception &e) {
-        std::cerr << e.what() << std::endl;
-    }
-}
 
 
 /*void processDiskOutput(const std::string &inputFile, const std::string &benchmarkName) {
@@ -289,7 +226,7 @@ void processMemoryOutput(const std::string &inputFile, const std::string &benchm
         std::ifstream inFile(inputFile);
         std::string line;
 
-        int avgIntMem = -1, avgFloatMem = -1, avgCache = -1;
+        float avgIntMem = -1, avgFloatMem = -1, avgCache = -1;
 
         // Regular expression to split by one or more spaces
         std::regex regex("\\s+");
@@ -311,8 +248,19 @@ void processMemoryOutput(const std::string &inputFile, const std::string &benchm
                     std::cout << "Time_ms                              : " << tokens[1] << " " << tokens[2] << std::endl;
                     std::cout << "CPU_ms                               : " << tokens[3] << " " << tokens[4] << std::endl;
                     std::cout << "Iterations                           : " << tokens[5] << std::endl;
+
+                    size_t kPos6 = tokens[6].find("k");
+                        if (kPos6 != std::string::npos) {
+                            std::string numericPart = tokens[6].substr(0, kPos6);
+                            float token6numericValue = std::stof(numericPart);
+                            token6numericValue *= 1000;
+                            //tokens[6] = std::to_string((int)token6numericValue);
+                            tokens[6] = std::to_string(token6numericValue);
+
+                        }
                     
                     if (benchmarkName.find("Benchmark_RAMSMP_INTmem") != std::string::npos) {
+                    
                         avgIntMem = std::stof(tokens[6]);
                         std::cout << "Average Integer Memory (in MiB/s)   : " << avgIntMem << std::endl;
                     } else if (benchmarkName.find("Benchmark_RAMSMP_FLOATmem") != std::string::npos) {
@@ -369,7 +317,7 @@ void processNetworkOutput(const std::string &inputFile, const std::string &bench
         std::ifstream inFile(inputFile);
         std::string line;
 
-        int avgBand = -1, avgLat = -1, avgRec = -1,  avgSender = -1;
+        float avgBand = -1, avgLat = -1, avgRec = -1,  avgSender = -1;
 
         // Regular expression to split by one or more spaces
         std::regex regex("\\s+");
@@ -393,8 +341,16 @@ void processNetworkOutput(const std::string &inputFile, const std::string &bench
                     std::cout << "Iterations                           : " << tokens[5] << std::endl;
                     
                     if (benchmarkName.find("BM_EthrBenchmark") != std::string::npos) {
+
+                        size_t gPos6 = tokens[6].find("G");
+                        if (gPos6 != std::string::npos) {
+                            std::string numericPart = tokens[6].substr(0, gPos6);
+                            float token6numericValue = std::stof(numericPart);
+                            token6numericValue *= 1000000000.0; // Convert Gbps to bits/sec
+                            tokens[6] = std::to_string(token6numericValue);
+                        }
                         avgBand = std::stof(tokens[6]);
-                        std::cout << "Average Bandwidth (bits/sec)   : " << avgBand << std::endl;
+                        std::cout << "Average Bandwidth (bits/sec)   : " << std::fixed << std::setprecision(1) << avgBand << std::endl;
                     } else if (benchmarkName.find("BM_SockperfLatencyUnderLoad") != std::string::npos) {
                         avgLat = std::stof(tokens[6]);
                         std::cout << "Average Latency (in usec)     : " << avgLat << std::endl;
@@ -448,7 +404,7 @@ void processCpuOutput(const std::string &inputFile, const std::string &benchmark
         std::ifstream inFile(inputFile);
         std::string line;
 
-        int AverageRenderingtime = -1, AveragePerByte = -1, AverageEventsPerSecond = -1;
+        float AverageRenderingtime = -1, AveragePerByte = -1, AverageEventsPerSecond = -1;
 
         // Regular expression to split by one or more spaces
         std::regex regex("\\s+");
@@ -480,6 +436,16 @@ void processCpuOutput(const std::string &inputFile, const std::string &benchmark
                         AveragePerByte  = std::stof(tokens[6]);  // Adjust the index
                         std::cout << "Average Per Byte (Cycles Per Byte)     : " << AveragePerByte  << std::endl;
                     } else if (benchmarkName.find("BM_SysbenchCPUBenchmark") != std::string::npos) {
+
+                        size_t kPos6 = tokens[6].find("k");
+                        if (kPos6 != std::string::npos) {
+                            std::string numericPart = tokens[6].substr(0, kPos6);
+                            float token6numericValue = std::stof(numericPart);
+                            token6numericValue *= 1000;
+                            //tokens[6] = std::to_string((int)token6numericValue);
+                            tokens[6] = std::to_string(token6numericValue);
+
+                        }
                         AverageEventsPerSecond = std::stof(tokens[6]);  // Adjust the index
                         std::cout << "Average Events/s (seconds)            : " << AverageEventsPerSecond << std::endl;
                     }
@@ -500,7 +466,7 @@ void processGpuOutput(const std::string &inputFile, const std::string &benchmark
         std::ifstream inFile(inputFile);
         std::string line;
 
-        int AvgFPS = -1, AverageFurMarkScore = -1, AverageTessMarkScore = -1;
+        float AvgFPS = -1, AverageFurMarkScore = -1, AverageTessMarkScore = -1;
 
         // Regular expression to split by one or more spaces
         std::regex regex("\\s+");
@@ -525,14 +491,33 @@ void processGpuOutput(const std::string &inputFile, const std::string &benchmark
                     
                     if (benchmarkName.find("BM_UnigineHeavenBenchmark") != std::string::npos)
                      {
-                        
-                        float AvgFPS = std::stof(tokens[6]);
+                        AvgFPS = std::stof(tokens[6]);
                         std::cout << "Average FPS (Frames Per Second)   : " << AvgFPS << std::endl;
                     } else if (benchmarkName.find("BM_FurMarkBenchmark") != std::string::npos) {
-                        float AverageFurMarkScore  = std::stof(tokens[6]);  // Adjust the index
+                        size_t kPos6 = tokens[6].find("k");
+                        if (kPos6 != std::string::npos) {
+                            std::string numericPart = tokens[6].substr(0, kPos6);
+                            float token6numericValue = std::stof(numericPart);
+                            token6numericValue *= 1000;
+                            //tokens[6] = std::to_string((int)token6numericValue);
+                            tokens[6] = std::to_string(token6numericValue);
+
+                        }
+                        
+                        AverageFurMarkScore  = std::stof(tokens[6]);  // Adjust the index
                         std::cout << "Average Furmark Score (Points)     : " << AverageFurMarkScore  << std::endl;
                     } else if (benchmarkName.find("BM_TessMarkBenchmark") != std::string::npos) {
-                        float AverageTessMarkScore = std::stof(tokens[6]);  // Adjust the index
+                        size_t kPos6 = tokens[6].find("k");
+                        if (kPos6 != std::string::npos) {
+                            std::string numericPart = tokens[6].substr(0, kPos6);
+                            float token6numericValue = std::stof(numericPart);
+                            token6numericValue *= 1000;
+                            //tokens[6] = std::to_string((int)token6numericValue);
+                            tokens[6] = std::to_string(token6numericValue);
+
+                        }
+                        
+                        AverageTessMarkScore = std::stof(tokens[6]);  // Adjust the index
                         std::cout << "Average Tessmark Score (Points)            : " << AverageTessMarkScore << std::endl;
                     } 
                 }
@@ -660,7 +645,7 @@ int main(int argc, char* argv[]) {
             std::cout << "\n\n";
             std::cout << "######## BENCHMARK RESULTS ########\n";
             std::cout << "1. C-RAY\n";
-            processCpuOutput("c-ray_output.txt", "BM_UnigineHeavenBenchmark/iterations:3");
+            processCpuOutput("c-ray_output.txt", "BM_CRayBenchmark/iterations:1");
             std::cout << "\n";
             std::cout << "2. BLAKE\n";
             processCpuOutput("blake2_output.txt", "BM_Blake2_Benchmark/iterations:5");
