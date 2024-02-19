@@ -79,7 +79,7 @@ std::ofstream ofs(resultFileName, std::ofstream::out | std::ofstream::trunc);
     if (numResults > 0) {
         double averageEventsPerSecond = totalEventsPerSecond / numResults;
         std::cout << "Calculated Average: " << averageEventsPerSecond << " events per second" << std::endl;
-        state.counters["AverageEventsPerSecond"] = averageEventsPerSecond;
+        state.counters["AveragesEventsPerSecond"] = averageEventsPerSecond;
     }
 }
 
