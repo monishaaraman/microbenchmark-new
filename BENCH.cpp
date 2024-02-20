@@ -647,6 +647,7 @@ int main(int argc, char* argv[]) {
         }
 
         else if (option == "cpu") {
+            
 
             system("./c-ray_bench.sh | tee c-ray_output.txt > /dev/null 2>&1");
             system("./blake2-bench.sh | tee blake2_output.txt > /dev/null 2>&1");
