@@ -8,6 +8,16 @@
 #include <pqxx/pqxx>
 #include <iomanip> // Include the header for setprecision
 
+std::string removeSubstring(const std::string &original, const std::string &toRemove) {
+    std::string result = original;
+    size_t pos = result.find(toRemove);
+    if (pos != std::string::npos) {
+        // Remove the substring by erasing it
+        result.erase(pos, toRemove.length());
+    }
+    return result;
+}
+
 
 
 std::string getSystemModelName() {
@@ -70,8 +80,8 @@ void processDiskOutput(const std::string &inputFile, const std::string &benchmar
 
                 if (!tokens.empty()) {
                     std::cout << "Benchmark                           : " << getFirstToken(tokens[0], '/') << std::endl;
-                    std::cout << "Time_ms                              : " << tokens[1] << " " << tokens[2] << std::endl;
-                    std::cout << "CPU_ms                               : " << tokens[3] << " " << tokens[4] << std::endl;
+                    std::cout << "Time_ms                              : " << removeSubstring(tokens[1], "ms") << std::endl;
+                    std::cout << "CPU_ms                               : " << removeSubstring(tokens[3], "ms") << std::endl;
                     std::cout << "Iterations                           : " << tokens[5] << std::endl;
 
                     if (benchmarkName.find("Fio-Random") != std::string::npos ||
@@ -219,7 +229,6 @@ void processDiskOutput(const std::string &inputFile, const std::string &benchmar
 
 //Memory
 
-
 void processMemoryOutput(const std::string &inputFile, const std::string &benchmarkName) {
     try {
         std::string modelName = getSystemModelName();
@@ -246,8 +255,8 @@ void processMemoryOutput(const std::string &inputFile, const std::string &benchm
 
                 if (!tokens.empty()) {
                     std::cout << "Benchmark                           : " << getFirstToken(tokens[0], '/') << std::endl;
-                    std::cout << "Time_ms                              : " << tokens[1] << " " << tokens[2] << std::endl;
-                    std::cout << "CPU_ms                               : " << tokens[3] << " " << tokens[4] << std::endl;
+                    std::cout << "Time_ms                              : " << removeSubstring(tokens[1], "ms") << std::endl;
+                    std::cout << "CPU_ms                               : " << removeSubstring(tokens[3], "ms") << std::endl;
                     std::cout << "Iterations                           : " << tokens[5] << std::endl;
 
                     size_t kPos6 = tokens[6].find("k");
@@ -337,8 +346,8 @@ void processNetworkOutput(const std::string &inputFile, const std::string &bench
 
                 if (!tokens.empty()) {
                     std::cout << "Benchmark                           : " << getFirstToken(tokens[0], '/') << std::endl;
-                    std::cout << "Time_ms                              : " << tokens[1] << " " << tokens[2] << std::endl;
-                    std::cout << "CPU_ms                               : " << tokens[3] << " " << tokens[4] << std::endl;
+                    std::cout << "Time_ms                              : " << removeSubstring(tokens[1], "ms") << std::endl;
+                    std::cout << "CPU_ms                               : " << removeSubstring(tokens[3], "ms") << std::endl;
                     std::cout << "Iterations                           : " << tokens[5] << std::endl;
                     
                     if (benchmarkName.find("BM_EthrBenchmark") != std::string::npos) {
@@ -424,8 +433,8 @@ void processCpuOutput(const std::string &inputFile, const std::string &benchmark
 
                 if (!tokens.empty()) {
                     std::cout << "Benchmark                           : " << getFirstToken(tokens[0], '/') << std::endl;
-                    std::cout << "Time_ms                              : " << tokens[1] << " " << tokens[2] << std::endl;
-                    std::cout << "CPU_ms                               : " << tokens[3] << " " << tokens[4] << std::endl;
+                    std::cout << "Time_ms                              : " << removeSubstring(tokens[1], "ms") << std::endl;
+                    std::cout << "CPU_ms                               : " << removeSubstring(tokens[3], "ms") << std::endl;
                     std::cout << "Iterations                           : " << tokens[5] << std::endl;
                     
                     if (benchmarkName.find("BM_CRayBenchmark") != std::string::npos)
@@ -486,8 +495,8 @@ void processGpuOutput(const std::string &inputFile, const std::string &benchmark
 
                 if (!tokens.empty()) {
                     std::cout << "Benchmark                           : " << getFirstToken(tokens[0], '/') << std::endl;
-                    std::cout << "Time_ms                              : " << tokens[1] << " " << tokens[2] << std::endl;
-                    std::cout << "CPU_ms                               : " << tokens[3] << " " << tokens[4] << std::endl;
+                    std::cout << "Time_ms                              : " << removeSubstring(tokens[1], "ms") << std::endl;
+                    std::cout << "CPU_ms                               : " << removeSubstring(tokens[3], "ms") << std::endl;
                     std::cout << "Iterations                           : " << tokens[5] << std::endl;
                     
                     if (benchmarkName.find("BM_UnigineHeavenBenchmark") != std::string::npos)
