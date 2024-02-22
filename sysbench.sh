@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# unzip the sysbench directory
+
+sudo unzip sysbench-1.0.20.zip 
+
 # Define the sysbench directory
 DIR="$(pwd)/sysbench-1.0.20"
 
