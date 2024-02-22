@@ -624,7 +624,7 @@ int main(int argc, char* argv[]) {
             std::cout << "\n";
             std::cout << "3. CACHEBENCH\n";
             processMemoryOutput("cache_output.txt", "BM_CacheBench/iterations:3");
-            
+            std::cout << "######## END ########\n";
            
          }
 
@@ -644,6 +644,7 @@ int main(int argc, char* argv[]) {
             std::cout << "\n";
             std::cout << "3. IPERF\n";
             processNetworkOutput("iperff_output.txt", "iperf/iterations:3");
+            std::cout << "######## END ########\n";
         }
 
         else if (option == "cpu") {
@@ -663,6 +664,7 @@ int main(int argc, char* argv[]) {
             std::cout << "\n";
             std::cout << "3. SYSBENCH\n";
             processCpuOutput("sysbench_output.txt", "BM_SysbenchCPUBenchmark/iterations:3");
+            std::cout << "######## END ########\n";
             
 
             
@@ -685,6 +687,7 @@ int main(int argc, char* argv[]) {
             std::cout << "\n";
             std::cout << "3. GPUTEST-TESSMARK\n";
             processGpuOutput("gputest_output.txt", "BM_TessMarkBenchmark/iterations:3");
+            std::cout << "######## END ########\n";
             
 
             
