@@ -1,4 +1,6 @@
 #include <benchmark/benchmark.h>
+#include <unistd.h>  // For getcwd
+#include <string>
 #include <cstdio>
 #include <cstdlib>
 #include <fstream>
@@ -6,6 +8,16 @@
 #include <regex>
 #include <string>
 #include <vector>
+
+// Function to get the current working directory
+std::string getCurrentWorkingDir() {
+    char buffer[FILENAME_MAX]; // Define a buffer to hold the path
+    if (getcwd(buffer, FILENAME_MAX)) { // Try to get the current working directory
+        return std::string(buffer); // Return the directory as a string if successful
+    } else {
+        return ""; // Return an empty string in case of failure
+    }
+}
 
 // Function to execute a benchmark script and append the result to a specified file
 void RunAndAppendBenchmark(const std::string& scriptName, const std::string& resultFileName, const std::regex& scoreRegex) {
@@ -73,7 +85,11 @@ void ClearResultsFile(const std::string& resultFileName) {
 
 // Benchmark for FurMark
 static void BM_FurMarkBenchmark(benchmark::State& state) {
-    const std::string furMarkScript = "/home/monisha/Downloads/GpuTest_Linux_x64_0.7.0/start_furmark_benchmark_fullscreen_1920x1080.sh";
+    std::string currentWorkingDir = getCurrentWorkingDir(); // Get the current working directory
+
+    // Construct the full path to the FurMark script using the current working directory
+    std::string furMarkScript = currentWorkingDir + "/start_furmark_benchmark_fullscreen_1920x1080.sh";
+    
     const std::string furMarkResultFile = "furmark_res.txt";
     const std::regex furMarkScoreRegex(R"(\[Benchmark_Score\] - module: FurMark - Score: (\d+) points)");
 
@@ -89,9 +105,14 @@ static void BM_FurMarkBenchmark(benchmark::State& state) {
     state.ResumeTiming();
 }
 
+
 // Benchmark for TessMark
 static void BM_TessMarkBenchmark(benchmark::State& state) {
-    const std::string tessMarkScript = "/home/monisha/Downloads/GpuTest_Linux_x64_0.7.0/start_tessmark_benchmark_fullscreen_1920x1080.sh";
+    std::string currentWorkingDir = getCurrentWorkingDir(); // Get the current working directory
+
+    // Construct the full path to the TessMark script using the current working directory
+    std::string tessMarkScript = currentWorkingDir + "/start_tessmark_benchmark_fullscreen_1920x1080.sh";
+    
     const std::string tessMarkResultFile = "tessmark_res.txt";
     std::regex tessMarkScoreRegex(R"(\[Benchmark_Score\] - module: TessMark X\d+ - Score: (\d+) points)");
 
@@ -106,7 +127,6 @@ static void BM_TessMarkBenchmark(benchmark::State& state) {
     state.counters["AverageTessMarkScore"] = averageScore;
     state.ResumeTiming();
 }
-
 // Register benchmarks
 BENCHMARK(BM_FurMarkBenchmark)->Iterations(3)->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_TessMarkBenchmark)->Iterations(3)->Unit(benchmark::kMillisecond);
