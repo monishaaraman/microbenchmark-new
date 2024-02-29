@@ -13,16 +13,6 @@ for dep in "${DEPS[@]}"; do
 done
 
 
-DIR="$(pwd)/llcbench"
-
-# Check if the llcbench directory already exists
-if [ -d "$DIR" ]; then
-    echo "llcbench directory already exists. Skipping extraction."
-else
-    echo "Extractingllcbench.zip..."
-    # unzip the llcbench directory
-    sudo unzip llcbench.zip 
-fi
 
 # Define the path to the cachebench binary
 CACHEBENCH_BIN="$PWD/llcbench/cachebench/cachebench"
