@@ -3,7 +3,6 @@
 
 # Define the directory
 DIR="$(pwd)/GpuTest_Linux_x64_0.7.0"
-echo "hellooooooooooooooooo"
 
 # Check if the Gputest directory exists
 if [ -d "$DIR" ]; then
