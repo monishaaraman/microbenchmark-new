@@ -1,11 +1,17 @@
 #!/bin/bash
-
-# unzip the sysbench directory
-
-sudo unzip sysbench-1.0.20.zip 
+ 
 
 # Define the sysbench directory
 DIR="$(pwd)/sysbench-1.0.20"
+
+# Check if the sysbench directory already exists
+if [ -d "$DIR" ]; then
+    echo "Sysbench directory already exists. Skipping extraction."
+else
+    echo "Extracting sysbench-1.0.20.zip..."
+    # unzip the sysbench directory
+    sudo unzip sysbench-1.0.20.zip 
+fi
 
 # Define the path to the sysbench binary
 SYSBENCH_BIN="$DIR/src/sysbench"
