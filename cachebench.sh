@@ -57,8 +57,8 @@ for file in "${FILES[@]}"; do
         
     fi
 done
-# Build Google Benchmark in the fio-3.35 directory
-DIR="$PWD/llcbench/cachebench"
+# Build Google Benchmark in the cachebench directory
+DIR="$PWD/cachebench"
 if [ -d "$DIR" ]; then
     cd "$DIR"
  # Build Google Benchmark
