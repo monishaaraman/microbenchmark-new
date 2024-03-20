@@ -4,7 +4,7 @@
 sudo apt-get update
 
 # Install dependencies if not already installed
-DEPS=("cmake" "libbenchmark-dev" "python3" "git" "libaio-dev" "autoconf" "libpqxx-dev")
+DEPS=("g++" "cmake" "libbenchmark-dev" "python3" "git" "libaio-dev" "autoconf" "libpqxx-dev")
 
 for dep in "${DEPS[@]}"; do
     if ! dpkg -l | grep -q "^ii  $dep"; then
