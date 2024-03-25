@@ -90,7 +90,7 @@ static void BM_Compilebench(benchmark::State& state) {
 }
 
 // Register the benchmark function
-BENCHMARK(BM_Compilebench)->Iterations(3)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_Compilebench)->Iterations(2)->Unit(benchmark::kMillisecond);
 
 // Only one main function, as provided by the benchmark library
 BENCHMARK_MAIN();
