@@ -606,7 +606,7 @@ int main(int argc, char* argv[]) {
             processDiskOutput("fio-sync-test_output.txt", "Fio-sequential/iterations:10");
             std::cout << "\n";
             std::cout << "3. Compile_bench\n";
-            processDiskOutput("compilebench_output.txt", "BM_Compilebench/iterations:3");
+            processDiskOutput("compilebench_output.txt", "BM_Compilebench/iterations:2");
             std::cout << "######## END ########\n";
 
 
