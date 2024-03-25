@@ -31,6 +31,16 @@ std::string getSystemModelName() {
     }
 }
 
+std::string getSystemVendorName() {
+    std::ifstream file("/sys/class/dmi/id/sys_vendor");
+    if (file.is_open()) {
+        std::string sysVendor;
+        std::getline(file, sysVendor);
+        return sysVendor;
+    } else {
+        return "Error: Unable to open /sys/class/dmi/id/sys_vendor";
+    }
+}
    
 
 std::string getFirstToken(const std::string &s, char delimiter) {
@@ -57,7 +67,9 @@ std::string getFirstToken(const std::string &s, char delimiter) {
 void processDiskOutput(const std::string &inputFile, const std::string &benchmarkName) {
     try {
         std::string modelName = getSystemModelName();
-        std::cout << "System Model Name: " << modelName << std::endl;
+         std::string sysVendor = getSystemVendorName();
+    
+    std::cout << "System Model Name: " << sysVendor + " - " + modelName << std::endl;
         std::ifstream inFile(inputFile);
         std::string line;
 
@@ -232,7 +244,9 @@ void processDiskOutput(const std::string &inputFile, const std::string &benchmar
 void processMemoryOutput(const std::string &inputFile, const std::string &benchmarkName) {
     try {
         std::string modelName = getSystemModelName();
-        std::cout << "System Model Name: " << modelName << std::endl;
+       std::string sysVendor = getSystemVendorName();
+    
+    std::cout << "System Model Name: " << sysVendor + " - " + modelName << std::endl;
         std::ifstream inFile(inputFile);
         std::string line;
 
@@ -323,7 +337,9 @@ void processMemoryOutput(const std::string &inputFile, const std::string &benchm
 void processNetworkOutput(const std::string &inputFile, const std::string &benchmarkName) {
     try {
         std::string modelName = getSystemModelName();
-        std::cout << "System Model Name: " << modelName << std::endl;
+         std::string sysVendor = getSystemVendorName();
+    
+    std::cout << "System Model Name: " << sysVendor + " - " + modelName << std::endl;
         std::ifstream inFile(inputFile);
         std::string line;
 
@@ -410,7 +426,9 @@ void processNetworkOutput(const std::string &inputFile, const std::string &bench
 void processCpuOutput(const std::string &inputFile, const std::string &benchmarkName) {
     try {
         std::string modelName = getSystemModelName();
-        std::cout << "System Model Name: " << modelName << std::endl;
+         std::string sysVendor = getSystemVendorName();
+    
+    std::cout << "System Model Name: " << sysVendor + " - " + modelName << std::endl;
         std::ifstream inFile(inputFile);
         std::string line;
 
@@ -472,7 +490,9 @@ void processCpuOutput(const std::string &inputFile, const std::string &benchmark
 void processGpuOutput(const std::string &inputFile, const std::string &benchmarkName) {
     try {
         std::string modelName = getSystemModelName();
-        std::cout << "System Model Name: " << modelName << std::endl;
+        std::string sysVendor = getSystemVendorName();
+    
+    std::cout << "System Model Name: " << sysVendor + " - " + modelName << std::endl;
         std::ifstream inFile(inputFile);
         std::string line;
 
