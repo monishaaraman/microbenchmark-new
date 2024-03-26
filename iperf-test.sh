@@ -63,7 +63,7 @@ for file in "${FILES[@]}"; do
 done
 
 # Build Google Benchmark in the iperf-3.14/src directory
-DIR="$PWD/src"
+DIR="/usr/share/microbenchmark/iperf-3.14/src"
 if [ -d "$DIR" ]; then
     cd "$DIR"
  # Build Google Benchmark
